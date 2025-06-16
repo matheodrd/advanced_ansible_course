@@ -1,0 +1,14 @@
+---
+- name: TP0 - Install VIM and check passwd file presence
+  hosts: all
+
+  tasks:
+    - name: Install VIM
+      ansible.builtin.apt:
+        name: vim
+
+    - name: Check if /etc/passwd exists
+      ansible.builtin.stat:
+        path: /etc/passwd
+      register: passwd_file
+      failed_when: not passwd_file.stat.exists
