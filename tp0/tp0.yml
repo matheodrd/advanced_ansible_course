@@ -6,6 +6,7 @@
     - name: Install VIM
       ansible.builtin.apt:
         name: vim
+      become: true
 
     - name: Check if /etc/passwd exists
       ansible.builtin.stat:
