@@ -1,0 +1,8 @@
+---
+- name: TP5 - Install Docker and setup webservers
+  hosts: all
+
+- name: Import TP4
+  ansible.builtin.import_playbook: /home/ambient-user/advanced_ansible_course/tp4/tp4.yml
+- name: Import TP3
+  ansible.builtin.import_playbook: /home/ambient-user/advanced_ansible_course/tp3/tp3.yml
