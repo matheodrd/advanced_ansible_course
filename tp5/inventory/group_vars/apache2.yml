@@ -1,0 +1,4 @@
+---
+packages:
+  - apache2
+  - mysql-server
