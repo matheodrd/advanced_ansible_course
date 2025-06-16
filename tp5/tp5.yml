@@ -1,8 +1,20 @@
 ---
-- name: TP5 - Install Docker and setup webservers
+- name: Import TP4 playbook
+  ansible.builtin.import_playbook: /home/ambient-user/advanced_ansible_course/tp4/tp4.yml
+- name: Import TP3 playbook
+  ansible.builtin.import_playbook: /home/ambient-user/advanced_ansible_course/tp3/tp3.yml
+
+- name: TP5
   hosts: all
 
-- name: Import TP4
-  ansible.builtin.import_playbook: /home/ambient-user/advanced_ansible_course/tp4/tp4.yml
-- name: Import TP3
-  ansible.builtin.import_playbook: /home/ambient-user/advanced_ansible_course/tp3/tp3.yml
+  tasks:
+    - name: Write current time in /etc/last_changed
+      ansible.builtin.copy:
+        content: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
+        dest: /etc/last_changed
+        owner: root
+        group: root
+        mode: "0644"
+        force: true
+      become: true
+      become_user: root
