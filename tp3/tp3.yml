@@ -27,7 +27,7 @@
 
     - name: Write index.html
       ansible.builtin.template:
-        src: templates/index.html.j2
+        src: index.html.j2
         dest: /var/www/html/index.html
         owner: www-data
         group: www-data
@@ -53,3 +53,12 @@
       become: true
       become_user: root
       when: "'nginx' in ansible_facts.packages"
+
+    - name: Write day file
+      ansible.builtin.template:
+        src: jour.j2
+        dest: /etc/jour
+        mode: "0644"
+        force: true
+      become: true
+      become_user: root
