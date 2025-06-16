@@ -1,0 +1,20 @@
+---
+- name: TP1 - Install Apache2
+  hosts: all
+
+  tasks:
+    - name: Install Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+        update_cache: true
+      become: true
+      become_user: root
+
+    - name: Ensure Apache2 service is started and enabled
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: true
+      become: true
+      become_user: root
