@@ -1,0 +1,33 @@
+---
+- name: TP2 - Setup Apache2 and add content to index.html
+  hosts: all
+  vars:
+    packages:
+      - apache2
+      - mysql-server
+    index_content: "<h1>Bonjour depuis Ansible</h1>"
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: true
+      become: true
+      become_user: root
+      loop: "{{ packages }}"
+
+    - name: Get installed packages
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Modify index.html if Apache2 is installed
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: "{{ index_content }}"
+        owner: www-data
+        group: www-data
+        mode: "0644"
+      become: true
+      become_user: root
+      when: "'apache2' in ansible_facts.packages"
