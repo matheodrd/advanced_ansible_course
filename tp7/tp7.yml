@@ -21,3 +21,11 @@
     - name: Display temperature CSV content
       ansible.builtin.debug:
         var: temperature_csv.list
+
+    - name: Set temperatures list sorted and without duplicates
+      ansible.builtin.set_fact:
+        temperatures: "{{ temperature_csv.list | unique | sort(attribute='time') }}"
+
+    - name: Display temperatures
+      ansible.builtin.debug:
+        var: temperatures
