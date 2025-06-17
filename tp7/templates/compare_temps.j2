@@ -1,0 +1,22 @@
+{% for csv_row in csv_temps %}
+{% set csv_hour = csv_row.time[11:16] %}
+{% set api_row = (api_temps | selectattr('time', 'search', csv_hour~'$') | list | first) %}
+### Heure : {{ csv_hour }}
+
+- Température CSV : {{ csv_row.temperature }}°C
+{% if api_row %}
+- Température {{ city }} : {{ api_row.temperature }}°C
+{% set diff = api_row.temperature|float - csv_row.temperature|float %}
+{% if diff > 0 %}
+- Il fait plus chaud à {{ city }} (+{{ diff|round(2) }}°C)
+{% elif diff < 0 %}
+- Il fait plus froid à {{ city }} ({{ diff|round(2) }}°C)
+{% else %}
+- Températures égales
+{% endif %}
+{% else %}
+- Pas de donnée à {{ city }} pour cette heure
+{% endif %}
+
+---
+{% endfor %}
