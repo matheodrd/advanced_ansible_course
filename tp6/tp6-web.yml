@@ -1,0 +1,38 @@
+---
+- name: Installer et configurer wordpress
+  hosts: web
+  become: true
+  become_user: root
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - geerlingguy.php
+    - geerlingguy.apache
+    - geerlingguy.apache-php-fpm
+
+  tasks:
+    - name: Install apache
+      ansible.builtin.include_role:
+        name: geerlingguy.apache
+      vars:
+        apache_listen_port: 8080
+
+    - name: Create wordpress directory
+      ansible.builtin.file:
+        path: /var/www/wordpress/
+        state: directory
+        recurse: true
+
+    - name: Download and unarchive wordpress
+      ansible.builtin.unarchive:
+        src: https://fr.wordpress.org/latest-fr_FR.zip
+        dest: /var/www/
+        remote_src: true
+
+    - name: Configure wordpress wp-config.php
+      ansible.builtin.template:
+        src: template/wp-config.j2
+        dest: /var/www/wordpress/wp-config.php
+        mode: '0644'

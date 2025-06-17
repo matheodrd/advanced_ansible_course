@@ -1,0 +1,33 @@
+# Mysql vars
+mysql_user_password: P@ssword
+mysql_user_home: /root
+mysql_user_name: root
+mysql_users:
+      - name: wordpress
+        host: "%"
+        password: wordpress_secure_password
+        priv: "wordpress.*:ALL"
+mysql_databases:
+      - name: wordpress
+        encoding: latin1
+        collation: latin1_general_ci
+
+# Wordpress vars
+
+wordpress_db_name: wordpress
+wordpress_db_username: wordpress
+wordpress_db_password: wordpress_secure_password
+
+# PHP & apache vars
+php_packages_extra:
+      - php-mysql
+
+php_enable_php_fpm: true
+
+apache_remove_default_vhost: true
+apache_create_vhosts: true
+apache_vhosts:
+      - servername: "wordpress.local"
+        documentroot: "/var/www/wordpress/"
+        extra_parameters: |
+              ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/wordpress"
