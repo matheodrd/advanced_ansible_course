@@ -33,8 +33,20 @@
       ansible.builtin.debug:
         var: temperatures
 
-    - name: Fetch current temperatures
+    - name: Fetch temperatures from API
       ansible.builtin.uri:
-        url: "{{ meteo_api_base_url }}/forecast?latitude={{ latitude }}&longitude={{ latitude }}&hourly=temperature_2m"
+        url: "{{ meteo_api_base_url }}/forecast?latitude={{ latitude }}&longitude={{ longitude }}&hourly=temperature_2m"
         return_content: true
       register: meteo_response
+
+    - name: Set API temperatures var from API response
+      ansible.builtin.set_fact:
+        api_temperatures: "{{ meteo_response.content | from_json }}"
+
+    - name: Format API temperatures to match CSV data structure
+      ansible.builtin.set_fact:
+        api_temperatures: "{{ api_temperatures.hourly | format_api_temperatures }}"
+
+    - name: Display API temperatures
+      ansible.builtin.debug:
+        var: api_temperatures
