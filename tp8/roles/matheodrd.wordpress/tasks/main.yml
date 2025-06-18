@@ -1,8 +1,4 @@
 ---
-- name: Install Apache
-  ansible.builtin.include_role:
-    name: geerlingguy.apache
-
 - name: Install PHP
   ansible.builtin.include_role:
     name: geerlingguy.php
@@ -10,3 +6,37 @@
 - name: Install Apache-PHP-FPM
   ansible.builtin.include_role:
     name: geerlingguy.apache-php-fpm
+  vars:
+    php_enable_php_fpm: true
+    php_packages_extra:
+      - php-mysql
+
+- name: Install Apache
+  ansible.builtin.include_role:
+    name: geerlingguy.apache
+  vars:
+    apache_remove_default_vhost: true
+    apache_create_vhosts: true
+    apache_vhosts:
+      - servername: "localhost"
+        documentroot: "/var/www/wordpress/"
+        extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/wordpress"
+
+- name: Create wordpress directory
+  ansible.builtin.file:
+    path: /var/www/wordpress/
+    state: directory
+    recurse: true
+
+- name: Download and unarchive wordpress
+  ansible.builtin.unarchive:
+    src: https://fr.wordpress.org/latest-fr_FR.zip
+    dest: /var/www/
+    remote_src: true
+
+- name: Configure wordpress wp-config.php
+  ansible.builtin.template:
+    src: wp-config.php.j2
+    dest: /var/www/wordpress/wp-config.php
+    mode: "0644"

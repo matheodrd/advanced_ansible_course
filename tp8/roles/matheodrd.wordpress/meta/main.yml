@@ -10,7 +10,4 @@ galaxy_info:
   galaxy_tags:
     - wordpress
 
-dependencies:
-  - role: geerlingguy.apache
-  - role: geerlingguy.php
-  - role: geerlingguy.apache-php-fpm
+dependencies: []
