@@ -1,0 +1,7 @@
+---
+temperature_csv_url: https://raw.githubusercontent.com/MrMegaNova/advanced_ansible_course_16_06/refs/heads/main/tp7/temperature.csv
+tmp_dest_csv_path: /tmp/temperature.csv
+meteo_api_base_url: https://api.open-meteo.com/v1
+latitude: "49.20"
+longitude: "-0.40"
+city: Caen
