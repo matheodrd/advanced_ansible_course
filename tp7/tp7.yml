@@ -47,7 +47,7 @@
     - name: Render template to compare temperatures
       ansible.builtin.template:
         src: compare_temps.j2
-        dest: ./compare_temps.md
+        dest: "{{ output_dir }}/compare_temps.md"
         mode: "0644"
         force: true
       vars:
