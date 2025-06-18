@@ -1,0 +1,36 @@
+---
+- name: TP8 - Install Docker
+  hosts: node01
+  become: true
+  become_user: root
+  tags: docker
+
+  vars:
+    docker_users:
+      - ambient-user
+
+  roles:
+    - geerlingguy.docker
+
+- name: TP8 - Install Molecule
+  hosts: node01
+  tags: molecule
+
+  tasks:
+    - name: Install system requirements
+      ansible.builtin.apt:
+        name:
+          - libssl-dev
+          - python3-pip
+        state: present
+        update_cache: true
+      become: true
+      become_user: root
+
+    - name: Install Molecule pip packages
+      ansible.builtin.pip:
+        name:
+          - molecule==25.5.0
+          - molecule-plugins[docker]==23.7.0
+        state: present
+        break_system_packages: true
