@@ -23,6 +23,11 @@
         extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/wordpress"
 
+- name: Install unzip for WordPress extraction
+  ansible.builtin.package:
+    name: unzip
+    state: present
+
 - name: Create wordpress directory
   ansible.builtin.file:
     path: /var/www/wordpress/
