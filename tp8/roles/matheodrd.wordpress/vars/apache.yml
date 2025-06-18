@@ -1,0 +1,8 @@
+---
+apache_remove_default_vhost: true
+apache_create_vhosts: true
+apache_vhosts:
+  - servername: "wordpress.local"
+    documentroot: "/var/www/wordpress/"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/wordpress"

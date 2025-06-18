@@ -1,0 +1,12 @@
+---
+- name: Install Apache
+  ansible.builtin.include_role:
+    name: geerlingguy.apache
+
+- name: Install PHP
+  ansible.builtin.include_role:
+    name: geerlingguy.php
+
+- name: Install Apache-PHP-FPM
+  ansible.builtin.include_role:
+    name: geerlingguy.apache-php-fpm
