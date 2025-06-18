@@ -53,3 +53,14 @@
       vars:
         api_temps: "{{ api_temperatures }}"
         csv_temps: "{{ temperatures }}"
+
+    - name: Set reversed string of temperatures comparison
+      ansible.builtin.set_fact:
+        reversed_comparison: "{{ lookup('ansible.builtin.template', 'compare_temps.j2') | reverse_string }}"
+      vars:
+        api_temps: "{{ api_temperatures }}"
+        csv_temps: "{{ temperatures }}"
+
+    - name: Display reversed string of temperatures comparison
+      ansible.builtin.debug:
+        var: reversed_comparison
